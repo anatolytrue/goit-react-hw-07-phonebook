@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 // import { getContacts } from 'redux/selectors';
 // import { addContact } from "redux/contactsSlice";
 import { useAddContactMutation, useFetchContactsQuery } from "redux/contactsAPI";
-import { useDispatch} from 'react-redux';
+// import { useDispatch} from 'react-redux';
 import css from './ContactForm.module.css';
 
 
@@ -14,7 +14,7 @@ export default function ContactForm() {
 
     const {data: contacts} = useFetchContactsQuery();
     const [addContact] = useAddContactMutation();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const handleAddContact = ({ name, number }) => {
         const newContact = {
@@ -24,7 +24,7 @@ export default function ContactForm() {
             };
         contacts.find(contact => newContact.name.toLowerCase() === contact.name.toLowerCase())
             ? alert(`${newContact.name} is already in contacts`)
-            : dispatch(addContact(newContact)) && reset();
+            : addContact(newContact) && reset();
     }
 
     const handleChange = (e) => {
