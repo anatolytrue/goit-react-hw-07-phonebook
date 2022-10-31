@@ -1,18 +1,18 @@
 import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import css from './Filter.module.css';
 import { changeFilter } from 'redux/contactsSlice';
-import {getFilter} from 'redux/selectors'
+// import {getFilter} from 'redux/selectors'
 
 
 
 function Filter() {
 
-const filter = useSelector(getFilter);
+// const filter = useSelector(getFilter);
 const dispatch = useDispatch();
 
 const handleChangeFilter  = e => {
-    dispatch(changeFilter(e.currentTarget.value));
+    dispatch(changeFilter(e.target.value));
 }
 
     return (
@@ -22,7 +22,7 @@ const handleChangeFilter  = e => {
             className={css.filterInput}
             name="filter"
             type="text"
-            value={filter}
+            // value={filter}
             onChange={handleChangeFilter}
             placeholder="name surname"
         />
