@@ -14,6 +14,7 @@ export default function ContactForm() {
 
     const {data: contacts} = useFetchContactsQuery();
     const [addContact] = useAddContactMutation();
+    console.log(useAddContactMutation())
     // const dispatch = useDispatch();
 
     const handleAddContact = ({ name, number }) => {
