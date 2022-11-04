@@ -1,14 +1,15 @@
 import { useSelector } from 'react-redux';
 import css from './ContactList.module.css';
 // import { deleteContact } from 'redux/contactsSlice';
+import ContactItem from './ContactItem';
 import {getFilter} from 'redux/selectors'
-import { useDeleteContactMutation, useFetchContactsQuery } from 'redux/contactsAPI';
+import {useFetchContactsQuery } from 'redux/contactsAPI';
 
 function ContactList() {
 
     const {data =[]} = useFetchContactsQuery();
     const { filter } = useSelector(state => getFilter(state));
-    const [deleteContact] = useDeleteContactMutation();
+    // const [deleteContact, {isLoading}] = useDeleteContactMutation();
     // const dispatch = useDispatch();
     
     const getVisibleContacts = () => {
@@ -16,24 +17,27 @@ function ContactList() {
         return data.filter(contact =>
             contact.name.toLowerCase().includes(normalizedFilter))
     }
-    const handleDeleteContact = contactId =>
-        deleteContact(contactId);
+    
+    // const handleDeleteContact = contactId =>
+    //     deleteContact(contactId);
 
     const contactsList = getVisibleContacts();
+    console.log(contactsList)
 
     return (
         <ul className={css.phonebookContactList}>
-        {contactsList.map(({ id, name, number }) => (
-            <li key={id} className={css.phonebookContactListItem}>
-                <p>{name} : {number}</p>
-                <button type="button"
-                    onClick={() => handleDeleteContact(id)}
-                    className={css.phonebookContactListBtn}>
-                    Delete
-                </button>
-            </li>
+            {contactsList.map(({ id, name, phone }) => {
+                return (
+                    <ContactItem
+                        key={id}
+                        name={name}
+                        number={phone}
+                        contactId={id}
+                    />
+            )
+        }
             
-        ))}
+        )}
     </ul>
     )
 }

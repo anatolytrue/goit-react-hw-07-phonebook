@@ -5,23 +5,24 @@ import { nanoid } from 'nanoid';
 import { useAddContactMutation, useFetchContactsQuery } from "redux/contactsAPI";
 // import { useDispatch} from 'react-redux';
 import css from './ContactForm.module.css';
+import Loader from "components/Loader/Loader";
 
 
 export default function ContactForm() {
 
     const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
+    const [phone, setPhone] = useState('');
 
     const {data: contacts} = useFetchContactsQuery();
-    const [addContact] = useAddContactMutation();
-    console.log(useAddContactMutation())
+    const [addContact, {isLoading}] = useAddContactMutation();
+    // console.log(useAddContactMutation());
     // const dispatch = useDispatch();
 
-    const handleAddContact = ({ name, number }) => {
+    const handleAddContact = ({ name, phone }) => {
         const newContact = {
             id: nanoid(),
             name,
-            number,
+            phone,
             };
         contacts.find(contact => newContact.name.toLowerCase() === contact.name.toLowerCase())
             ? alert(`${newContact.name} is already in contacts`)
@@ -34,8 +35,8 @@ export default function ContactForm() {
             case "name":
                 setName(value);
                 break;
-            case "number":
-                setNumber(value);
+            case "phone":
+                setPhone(value);
                 break;
             default:
                 return;
@@ -44,13 +45,13 @@ export default function ContactForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleAddContact({name, number});
+        handleAddContact({name, phone});
         // reset();
     }
 
     const reset = () => {
         setName('');
-        setNumber('');
+        setPhone('');
     }
 
     return (
@@ -69,8 +70,8 @@ export default function ContactForm() {
                     />
                     <input
                         type="tel"
-                        name='number'
-                        value={number}
+                        name='phone'
+                        value={phone}
                         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                         required
@@ -80,7 +81,7 @@ export default function ContactForm() {
                     <button
                             type='submit'
                             className={css.phonebookBtnAdd}>
-                        Add contact
+                        {isLoading ? <Loader/> : 'Add contact'}
                     </button>
                 </label>
             </form>
